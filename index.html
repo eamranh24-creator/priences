@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; font-family: 'Baloo 2', cursive; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(#ffe6eb, #f7e9ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background: white;
+  border-radius: 22px;
+  padding: 30px;
+  width: 92%;
+  max-width: 430px;
+  text-align: center;
+  box-shadow: 0 15px 45px rgba(0,0,0,0.12);
+}
+
+h1 { color: #ff4d88; margin-bottom: 10px; }
+p { color: #6f3f5f; font-size: 17px; line-height: 1.5; }
+
+.hidden { display: none; }
+
+button {
+  background: #ff4d88;
+  border: none;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 18px;
+}
+
+/* ⏳ Countdown */
+.countdown {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+.time-box {
+  background: #fff3f7;
+  border-radius: 14px;
+  padding: 10px;
+  width: 70px;
+}
+.number { font-size: 20px; color: #8a2be2; font-weight: 600; }
+.label { font-size: 12px; color: #ff7aa2; }
+
+/* 🎂 Cake */
+.cake-area {
+  margin: 30px auto 20px;
+  width: 240px;
+  position: relative;
+}
+
+/* Candles */
+.candles {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  position: absolute;
+  top: -38px;
+  width: 100%;
+}
+
+.candle {
+  width: 7px;
+  height: 32px;
+  background: repeating-linear-gradient(
+    45deg,
+    #fff,
+    #fff 3px,
+    #ff9ecb 3px,
+    #ff9ecb 6px
+  );
+  border-radius: 4px;
+  position: relative;
+}
+
+.flame {
+  width: 10px;
+  height: 14px;
+  background: radial-gradient(circle, #ffd166, #ff7a00);
+  border-radius: 50%;
+  position: absolute;
+  top: -14px;
+  left: -1.5px;
+  display: none;
+  animation: flicker 0.35s infinite alternate;
+}
+
+/* Cake layers */
+.layer {
+  height: 55px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+.layer.top { background: #ffd6e8; }
+.layer.middle { background: #ff9ecb; }
+.layer.bottom { background: #ff7fb2; }
+
+@keyframes flicker {
+  from { transform: scale(1); opacity: 0.85; }
+  to { transform: scale(1.15); opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<!-- ⏳ COUNTDOWN PAGE -->
+<div class="card" id="countdownPage">
+  <h1>Your Special Day 💕</h1>
+
+  <div class="countdown">
+    <div class="time-box"><div class="number" id="days">0</div><div class="label">Days</div></div>
+    <div class="time-box"><div class="number" id="hours">0</div><div class="label">Hours</div></div>
+    <div class="time-box"><div class="number" id="minutes">0</div><div class="label">Minutes</div></div>
+    <div class="time-box"><div class="number" id="seconds">30</div><div class="label">Seconds</div></div>
+  </div>
+
+  <p>Something sweet is coming, my Jann 💕</p>
+</div>
+
+<!-- 🎂 CAKE PAGE -->
+<div class="card hidden" id="cakePage">
+  <h1>Make a Wish ✨</h1>
+  <p>Light the candles and smile 💖</p>
+
+  <div class="cake-area">
+    <div class="candles" id="candles"></div>
+    <div class="layer top"></div>
+    <div class="layer middle"></div>
+    <div class="layer bottom"></div>
+  </div>
+
+  <button onclick="lightCandles()">Light Candles 🕯</button>
+</div>
+
+<!-- 💌 MESSAGE PAGE -->
+<div class="card hidden" id="messagePage">
+  <h1>Happy 19th Birthday 🎉</h1>
+  <p><strong id="nickname"></strong></p>
+
+  <p>
+    Happy Birthday, my Jann 💕<br>
+    Wishing you many, many happy returns of the day 🎉  
+    May your life always be filled with smiles, love, and beautiful moments.
+  </p>
+
+  <p>
+    I wish you the very best of luck for your future 🌟  
+    I know, without a doubt, you will be a strong and successful lady —  
+    my lady… maybe for some time 😌 but yep, my lady 💖
+  </p>
+
+  <p>
+    I am so proud of you, my Jann 🌸  
+    I love you 5000, my little Princess 👑  
+    <strong><br>— Your Blue Prince 💙</strong>
+  </p>
+</div>
+
+<script>
+/* Nickname */
+const names = ["My Jann 💕", "My Princess 👑"];
+document.getElementById("nickname").innerText =
+  names[Math.floor(Math.random() * names.length)];
+
+/* Countdown (30 sec demo) */
+let totalSeconds = 30;
+const timer = setInterval(() => {
+  totalSeconds--;
+
+  document.getElementById("days").innerText = Math.floor(totalSeconds / 86400);
+  document.getElementById("hours").innerText = Math.floor((totalSeconds % 86400) / 3600);
+  document.getElementById("minutes").innerText = Math.floor((totalSeconds % 3600) / 60);
+  document.getElementById("seconds").innerText = totalSeconds % 60;
+
+  if (totalSeconds <= 0) {
+    clearInterval(timer);
+    document.getElementById("countdownPage").classList.add("hidden");
+    document.getElementById("cakePage").classList.remove("hidden");
+    createCandles();
+  }
+}, 1000);
+
+/* Candles */
+function createCandles() {
+  const holder = document.getElementById("candles");
+  for (let i = 0; i < 19; i++) {
+    const c = document.createElement("div");
+    c.className = "candle";
+
+    const f = document.createElement("div");
+    f.className = "flame";
+
+    c.appendChild(f);
+    holder.appendChild(c);
+  }
+}
+
+function lightCandles() {
+  document.querySelectorAll(".flame").forEach(f => f.style.display = "block");
+
+  setTimeout(() => {
+    document.getElementById("cakePage").classList.add("hidden");
+    document.getElementById("messagePage").classList.remove("hidden");
+  }, 2500);
+}
+</script>
+
+</body>
+</html>
